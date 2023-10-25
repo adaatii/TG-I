@@ -23,7 +23,7 @@ def createSubCategory():
     _createdDate = datetime.now(
         timezone("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M:%S")
     _updatedDate = _createdDate
-    _idCategory = params['category']
+    _idCategory = params['idCategory']
 
     if _description is None or len(_description) < 1:
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
@@ -43,11 +43,12 @@ def updateSubCategory(id):
     _status = 1 if params['status'] else 0
     _updatedDate = datetime.now(
         timezone("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M:%S")
+    _idCategory = params['idCategory']
 
     if _description is None or len(_description) < 1:
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
     else:
-        if SubCategoryController.updateSubCategory(id, _description, _status, _updatedDate):
+        if SubCategoryController.updateSubCategory(id, _description, _status, _updatedDate,_idCategory):
             return {'status': 'success'}
         else:
-            return {'status': 'error', 'message': 'Category already exists'}, status.HTTP_409_CONFLICT
+            return {'status': 'error', 'message': 'SubCategory already exists'}, status.HTTP_409_CONFLICT

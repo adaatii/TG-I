@@ -8,7 +8,7 @@ def test_can_call_the_endpoint_categories():
     response = requests.get(f"{ENDPOINT}/categories/")
     first_category = response.json()['categories'][0]
     expected_result = {
-        "id": 2,
+        "id": 1,
         "description": 'COMIDA',
         "status": 1,
         "updatedDate": '04/07/2023 07:48:13',
@@ -66,7 +66,7 @@ def test_can_update_category_conflict():
         "description": "SALGADO",
         "status": True,
     }
-    response = requests.put(f"{ENDPOINT}/categories/3", json=payload)
+    response = requests.put(f"{ENDPOINT}/categories/1", json=payload)
     assert response.status_code == 409
     assert response.json() == {'status': 'error',
                                'message': 'Category already exists'}
@@ -86,84 +86,89 @@ def test_can_update_category_badRquest():
 
 # region SubCategory
 
-#def test_can_call_the_endpoint_subCategories():
-#    response = requests.get(f"{ENDPOINT}/subCategories/")
-#    first_subCategory = response.json()['subCategories'][0]
-#    expected_result = {
-#        "id": 2,
-#        "description": 'COMIDA',
-#        "status": 1,
-#        "updatedDate": '04/07/2023 07:48:13',
-#        "createdDate": '27/06/2023 13:39:33'
-#    }
-#    assert response.status_code == 200
-#    assert first_subCategory == expected_result
-#
-#
-#
-#def test_can_create_subCategory():
-#    payload = {
-#        "description": f"Teste {random.randint(1,10000)}",
-#        "status": True,
-#    }
-#    response = requests.post(f"{ENDPOINT}/subCategories/", json=payload)
-#    assert response.status_code == 200
-#    assert response.json() == {'status': 'success'}
-#
-#
-#def test_can_create_subCategory_conflict():
-#    payload = {
-#        "description": "SALGADO",
-#        "status": True,
-#    }
-#    response = requests.post(f"{ENDPOINT}/subCategories/", json=payload)
-#    assert response.status_code == 409
-#    assert response.json() == {'status': 'error',
-#                               'message': 'Category already exists'}
-#
-#
-#def test_can_create_subCategory_badRquest():
-#    payload = {
-#        "description": "",
-#        "status": True,
-#    }
-#    response = requests.post(f"{ENDPOINT}/subCategories/", json=payload)
-#    assert response.status_code == 400
-#    assert response.json() == {'status': 'error',
-#                               'message': 'Fill all of the fields'}
-#
-#
-#def test_can_update_subCategory():
-#    payload = {
-#        "description": "TESTE DE UPDATE",
-#        "status": False,
-#    }
-#    response = requests.put(f"{ENDPOINT}/subCategories/3", json=payload)
-#    assert response.status_code == 200
-#    assert response.json() == {'status': 'success'}
-#
-#
-#def test_can_update_subCategory_conflict():
-#    payload = {
-#        "description": "SALGADO",
-#        "status": True,
-#    }
-#    response = requests.put(f"{ENDPOINT}/subCategories/3", json=payload)
-#    assert response.status_code == 409
-#    assert response.json() == {'status': 'error',
-#                               'message': 'Category already exists'}
-#
-#
-#def test_can_update_subCategory_badRquest():
-#    payload = {
-#        "description": "",
-#        "status": True,
-#    }
-#    response = requests.put(f"{ENDPOINT}/subCategories/19", json=payload)
-#    assert response.status_code == 400
-#    assert response.json() == {'status': 'error',
-#                               'message': 'Fill all of the fields'}
-#
+def test_can_call_the_endpoint_subCategories():
+    response = requests.get(f"{ENDPOINT}/subCategories/")
+    first_subCategory = response.json()['subCategories'][0]
+    expected_result = {
+        "id": 1,
+        "description": 'DRINKS',
+        "status": 1,
+        "updatedDate": '24/10/2023 21:46:48',
+        "createdDate": '24/10/2023 21:46:48',
+        "idCategory": 1
+    }
+    assert response.status_code == 200
+    assert first_subCategory == expected_result
+
+def test_can_create_subCategory():
+    payload = {
+        "description": f"Teste {random.randint(1,10000)}",
+        "status": True,
+        "idCategory": 1
+    }
+    response = requests.post(f"{ENDPOINT}/subCategories/", json=payload)
+    assert response.status_code == 200
+    assert response.json() == {'status': 'success'}
+
+
+def test_can_create_subCategory_conflict():
+    payload = {
+        "description": "CAFÉ",
+        "status": True,
+        "idCategory": 1
+    }
+    response = requests.post(f"{ENDPOINT}/subCategories/", json=payload)
+    assert response.status_code == 409
+    assert response.json() == {'status': 'error',
+                               'message': 'Category already exists'}
+
+
+def test_can_create_subCategory_badRquest():
+    payload = {
+        "description": "",
+        "status": True,
+        "idCategory": 2
+    }
+    response = requests.post(f"{ENDPOINT}/subCategories/", json=payload)
+    assert response.status_code == 400
+    assert response.json() == {'status': 'error',
+                               'message': 'Fill all of the fields'}
+
+
+def test_can_update_subCategory():
+    payload = {
+        "description": "TESTE DE UPDATE",
+        "status": False,
+        "idCategory": 1
+    }
+    response = requests.put(f"{ENDPOINT}/subCategories/5", json=payload)
+    assert response.status_code == 200
+    assert response.json() == {'status': 'success'}
+
+
+def test_can_update_subCategory_conflict():
+    payload = {
+        "description": "CAFÉ",
+        "status": True,
+        "idCategory": 1
+    }
+    response = requests.put(f"{ENDPOINT}/subCategories/9", json=payload)
+    assert response.status_code == 409
+    assert response.json() == {'status': 'error',
+                               'message': 'SubCategory already exists'}
+
+
+def test_can_update_subCategory_badRquest():
+    payload = {
+        "description": "",
+        "status": True,
+        "idCategory": 1
+    }
+    response = requests.put(f"{ENDPOINT}/subCategories/1", json=payload)
+    assert response.status_code == 400
+    assert response.json() == {'status': 'error',
+                               'message': 'Fill all of the fields'}
+
 
 # endregion
 
@@ -173,12 +178,12 @@ def test_can_call_the_endpoint_employee():
     first_employee = response.json()['employees'][0]
     expected_result = {
         "id": 1,
-        "name": 'Estrela',
+        "name": 'ESTRELA',
         "cpf": '65743244432',
-        "email": "estrela@gmail.com",
+        "email": "ESTRELA@GMAIL.COM",
         "passwd": "123",
         "status": 0,
-        "updatedDate": '23/10/2023 08:19:38',
+        "updatedDate": '24/10/2023 16:50:19',
         "createdDate": '28/06/2023 08:31:46'
     }
     assert response.status_code == 200
@@ -228,13 +233,13 @@ def test_can_create_employee_badRquest():
 
 def test_can_update_employee():
     payload = {
-        "name": "Estrela",
-        "cpf": "65743244432",
+        "name": "New Name",
+        "cpf": "1111111",
         "passwd": "123",
-        "email": "estrela@gmail.com",
+        "email": "newemail@gmail.com",
         "status": False
     }
-    response = requests.put(f"{ENDPOINT}/employees/1",json=payload)
+    response = requests.put(f"{ENDPOINT}/employees/2",json=payload)
     assert response.status_code == 200
     assert response.json() == {'status': 'success'}
 

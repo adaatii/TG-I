@@ -33,24 +33,34 @@ class EmployeeController:
             db.session.rollback()
             return False
 
+    # def List(_employeeFilter) -> str:
+    #     if len(_employeeFilter) < 1:
+    #         query = EmployeeDb.query.all()
+
+    #         var = []
+
+    #         for employee in query:
+    #             var.append({
+    #                 "id": employee[-1],
+    #                 "name": employee[1],
+    #                 "email": employee[2],
+    #                 "cpf": employee[3],
+    #                 "passwd": employee[4],
+    #                 "status": employee[5],
+    #                 "updatedDate": employee[6],
+    #                 "createdDate": employee[7]
+    #             })
+
+    #     return {
+    #         "employees": var
+    #     }
+
     def List(_employeeFilter) -> str:
         if len(_employeeFilter) < 1:
             query = EmployeeDb.query.all()
-
-            var = []
-
-            for employee in query:
-                var.append({
-                    "id": employee[-1],
-                    "name": employee[1],
-                    "email": employee[2],
-                    "cpf": employee[3],
-                    "passwd": employee[4],
-                    "status": employee[5],
-                    "updatedDate": employee[6],
-                    "createdDate": employee[7]
-                })
+            queryCount = EmployeeDb.query.count()
 
         return {
-            "employees": var
+            "employees": [row.as_dict() for row in query],
+            "count": queryCount
         }

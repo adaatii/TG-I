@@ -4,11 +4,11 @@ from setting import db
 
 
 class SubCategoryController:
-    def createSubCategory(_description, _status, _createdDate, _updatedDate,_idCategory):
-        category = SubCategoryDb(
-            _description.upper(), _status, _createdDate, _updatedDate,_idCategory
+    def createSubCategory(_description, _status, _updatedDate, _createdDate, _idCategory):
+        subCategory = SubCategoryDb(
+            _description.upper(), _status, _updatedDate, _createdDate, _idCategory
         )
-        db.session.add(category)
+        db.session.add(subCategory)
         try:
             db.session.commit()
             return True

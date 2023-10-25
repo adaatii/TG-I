@@ -7,8 +7,7 @@ from flask_api import status
 
 Employee = Blueprint('employees', __name__)
 
-
-Employee.get("/")
+@Employee.get("/")
 def listEmployee():
     _employeeFilter = request.values.get("employeeName")
     if _employeeFilter == "None" or _employeeFilter is None:
