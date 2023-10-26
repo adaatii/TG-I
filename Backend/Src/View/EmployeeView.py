@@ -27,7 +27,7 @@ def createEmployee():
         timezone("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M:%S")
     _updatedDate = _createdDate
 
-    if any((x is None or x == "") for x in [_name, _passwd, _status]):
+    if any((x is None or x == "") for x in [_name,_cpf,_email, _passwd]):
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
     else:
         if EmployeeController.createEmployee(

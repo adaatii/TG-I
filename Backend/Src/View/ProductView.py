@@ -2,24 +2,21 @@ from flask import Blueprint, request
 from datetime import datetime
 from pytz import timezone
 from Src.Controller.Product import ProductController
-from Src.Controller.Category import CategoryController
+from Src.Controller.SubCategory import SubCategoryController
 from flask_api import status
 
 
-Product = Blueprint('employees', __name__)
+Product = Blueprint('products', __name__)
 
 @Product.get("/")
 def listProduct():
-    _employeeFilter = request.values.get("employeeName")
-    if _employeeFilter == "None" or _employeeFilter is None:
-        _employeeFilter = ""
-    employees = ProductController.List(_employeeFilter)
-    categories = CategoryController.List("")
-
+    _productFilter = request.values.get("productName")
+    if _productFilter == "None" or _productFilter is None:
+        _productFilter = ""
+    products = ProductController.List(_productFilter)
+    subCategories = SubCategoryController.List("")
    
-    
-    
-    return ProductController.List(_employeeFilter)
+    return ProductController.List(_productFilter)
 
 
 @Product.post("/")
@@ -31,12 +28,14 @@ def createProduct():
     _createdDate = datetime.now(
         timezone("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M:%S")
     _updatedDate = _createdDate
+    _status = 1 if params['status'] else 0
+
 
     if any((x is None or x == "") for x in [_description, _idSubCategory, _price]):
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
     else:
         if ProductController.createProduct(
-            _description, _price, _idSubCategory, _createdDate, _updatedDate
+            _description, _price, _status, _idSubCategory, _createdDate, _updatedDate
         ):
             return {'status': 'success'}
         else:
@@ -51,10 +50,12 @@ def updateProduct(id):
     _idSubCategory = params['idSubCategory']
     _updatedDate = datetime.now(
         timezone("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M:%S")
+    _status = 1 if params['status'] else 0
+
     if any((x is None or x == "") for x in [_description, _idSubCategory, _price]):
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
     else:
-        if ProductController.updateProduct(id, _description, _price, _idSubCategory, _updatedDate):
+        if ProductController.updateProduct(id, _description, _price, _status, _idSubCategory, _updatedDate):
             return {'status': 'success'}
         else:
             return {'status': 'error', 'message': 'Category already exists'}, status.HTTP_409_CONFLICT

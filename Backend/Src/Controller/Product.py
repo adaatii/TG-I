@@ -1,14 +1,14 @@
-from Src.Model.DataBase import CategoryDb, ProductDb
+from Src.Model.DataBase import ProductDb, SubCategoryDb
 from sqlalchemy.exc import IntegrityError
 from setting import db
 
 
 class ProductController:
-    def createProduct(_description, _price, _idSubCategory, _createdDate, _updatedDate):
-        employee = ProductDb(
-            _description.upper(), _price, _idSubCategory,  _createdDate, _updatedDate
+    def createProduct(_description, _price, _status, _idSubCategory, _createdDate, _updatedDate):
+        product = ProductDb(
+            _description.upper(), _price,  _status, _createdDate, _updatedDate, _idSubCategory
         )
-        db.session.add(employee)
+        db.session.add(product)
         try:
             db.session.commit()
             return True
@@ -16,7 +16,7 @@ class ProductController:
             db.session.rollback()
             return False
 
-    def updateProduct(id, _description,_price, _idSubCategory,  _updatedDate):
+    def updateProduct(id, _description,_price,_status, _idSubCategory,  _updatedDate):
         try:
             ProductDb.query.filter_by(id=id).update(
                 {
@@ -33,28 +33,29 @@ class ProductController:
             return False
 
     def List(_productFilter) -> str:
-        #        if len(_productFilter) < 1:
-        #             query = ProductDb.query\
-        #                 .join(CategoryDb, ProductDb.id_category == CategoryDb.id)\
-        #                 .add_columns(ProductDb.name, ProductDb.phone, ProductDb.email,\
-        #                 CategoryDb.description, ProductDb.status, ProductDb.createdDate,\
-        #                 ProductDb.updatedDate, ProductDb.id)\
-        #                 .filter(ProductDb.id_category == CategoryDb.id).all()
-        #
-        #             var = []
-        #
-        #             for employee in query:
-        #                 var.append({
-        #                     "createdDate": employee[6],
-        #                     "email": employee[3],
-        #                     "id": employee[-1],
-        #                     "label_category": employee[4],
-        #                     "name": employee[1],
-        #                     "phone": employee[2],
-        #                     "status": employee[5],
-        #                     "updatedDate": employee[7]
-        #                 })
-        #
-                 return {
-                     "employees": var
-                 }
+        if len(_productFilter) < 1:
+            query = ProductDb.query\
+                .join(SubCategoryDb, ProductDb.idSubCategory == SubCategoryDb.id)\
+                .add_columns(ProductDb.id, ProductDb.description, ProductDb.price, ProductDb.updatedDate, ProductDb.createdDate, ProductDb.status, SubCategoryDb.id)\
+                .filter(ProductDb.idSubCategory == SubCategoryDb.id).all()
+
+            var = []
+
+            for product in query:
+                var.append({
+                    "id": product[1],
+                    "description": product[2] ,
+                    "price": product[3],
+                    "updatedDate": product[4],
+                    "createdDate": product[5],
+                    "status": product[6],
+                    "idSubCategory": product[-1]
+
+                })
+
+            for i in var:
+                print(i)
+
+        return {
+            "products": var
+        }

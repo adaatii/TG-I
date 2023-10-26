@@ -25,7 +25,7 @@ def createSubCategory():
     _updatedDate = _createdDate
     _idCategory = params['idCategory']
 
-    if _description is None or len(_description) < 1:
+    if any((x is None or x == "") for x in [_description, _idCategory]):
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
     else:
         if SubCategoryController.createSubCategory(
@@ -45,7 +45,7 @@ def updateSubCategory(id):
         timezone("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M:%S")
     _idCategory = params['idCategory']
 
-    if _description is None or len(_description) < 1:
+    if any((x is None or x == "") for x in [_description, _idCategory]):
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
     else:
         if SubCategoryController.updateSubCategory(id, _description, _status, _updatedDate,_idCategory):

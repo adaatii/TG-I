@@ -75,16 +75,19 @@ class ProductDb(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.String(200), nullable=False)
     price = db.Column(db.Float, nullable=False)
+    status = db.Column(db.Integer, nullable=False)
     updatedDate = db.Column(db.String(20), nullable=False)
     createdDate = db.Column(db.String(20), nullable=False)
     idSubCategory = db.Column(db.Integer, db.ForeignKey('subCategory.id'), nullable=False)
     itensSale =  db.relationship('ItensSaleDb', backref='product')
 
-    def __init__(self, _description, _status, _updatedDate, _createdDate):
+    def __init__(self, _description,_price, _status, _updatedDate, _createdDate,_idSubCategory):
         self.description = _description
+        self.price = _price
         self.status = _status
         self.updatedDate = _updatedDate
         self.createdDate = _createdDate
+        self.idSubCategory = _idSubCategory
 
     def as_dict(self):        
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}

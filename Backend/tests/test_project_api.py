@@ -252,7 +252,7 @@ def test_can_update_employee_conflict():
         "email": "estrela@gmail.com",
         "status": True
     }
-    response = requests.put(f"{ENDPOINT}/employees/2",json=payload)
+    response = requests.put(f"{ENDPOINT}/employees/3",json=payload)
     assert response.status_code == 409
     assert response.json() == {'status': 'error',
                                'message': 'Category already exists'}
@@ -267,6 +267,101 @@ def test_can_update_employee_badRquest():
         "status": True
     }
     response = requests.put(f"{ENDPOINT}/employees/2",json=payload)
+    assert response.status_code == 400
+    assert response.json() == {'status': 'error',
+                               'message': 'Fill all of the fields'}
+
+# endregion
+
+# region Product
+def test_can_call_the_endpoint_product():
+    response = requests.get(f"{ENDPOINT}/products/")
+    first_product = response.json()['products'][0]
+    expected_result = {
+        "id": 1,
+        "description": 'PRODUCT 6404',
+        "price": 640,
+        "updatedDate": '25/10/2023 20:52:29',
+        "createdDate": '25/10/2023 20:52:29',
+        "idSubCategory":1,
+        "status": 1,
+
+    }
+    assert response.status_code == 200
+    assert first_product == expected_result
+
+def test_can_create_product():
+    rand = random.randint(1, 10000)
+    payload = {
+        "description": f"Product {rand}",
+        "price":f"{rand}",
+        "idSubCategory": 1,
+        "status": True
+    }
+    response = requests.post(f"{ENDPOINT}/products/", json=payload)
+    assert response.status_code == 200
+    assert response.json() == {'status': 'success'}
+
+
+def test_can_create_product_conflict():
+    payload = {
+        "description": f"PRODUCT 907",
+        "price": 907,
+        "idSubCategory": 1,
+        "status": True
+    }
+    response = requests.post(f"{ENDPOINT}/products/", json=payload)
+    assert response.status_code == 409
+    assert response.json() == {'status': 'error',
+                               'message': 'Product already exists'}
+
+
+def test_can_create_product_badRquest():
+    payload = {
+        "description": "",
+        "price": 907,
+        "idSubCategory": 1,
+        "status": True    
+    }
+    response = requests.post(f"{ENDPOINT}/products/", json=payload)
+    assert response.status_code == 400
+    assert response.json() == {'status': 'error',
+                               'message': 'Fill all of the fields'}
+
+
+def test_can_update_product():
+    payload = {
+        "description": f"PRODUCT 907",
+        "price": 907,
+        "idSubCategory": 2,
+        "status": False   
+    }
+    response = requests.put(f"{ENDPOINT}/products/2",json=payload)
+    assert response.status_code == 200
+    assert response.json() == {'status': 'success'}
+
+
+def test_can_update_product_conflict():
+    payload = {
+        "description": f"PRODUCT 907",
+        "price": 907,
+        "idSubCategory": 2,
+        "status": False 
+    }
+    response = requests.put(f"{ENDPOINT}/products/3",json=payload)
+    assert response.status_code == 409
+    assert response.json() == {'status': 'error',
+                               'message': 'Category already exists'}
+
+
+def test_can_update_product_badRquest():
+    payload = {
+        "description": "",
+        "price": 907,
+        "idSubCategory": 2,
+        "status": False 
+    }
+    response = requests.put(f"{ENDPOINT}/products/2",json=payload)
     assert response.status_code == 400
     assert response.json() == {'status': 'error',
                                'message': 'Fill all of the fields'}

@@ -82,13 +82,3 @@ VALUES ("COMIDA","1","04/07/2023 07:48:13","27/06/2023 13:39:33");
 INSERT INTO category (description, status, updatedDate, createdDate)
 VALUES ("SALGADO","1","24/10/2023 21:13:29","24/10/2023 21:13:29");
 
-SELECT * FROM employee 
-
-SELECT * FROM category c 
-
-SELECT * from subCategory sc 
-
-select sc.description as Name_SubCategory, c.description as Name_Category from subCategory sc 
-inner join category c 
-on sc.idCategory = c.id 
-order by sc.description asc;
