@@ -53,9 +53,6 @@ class ProductController:
 
                 })
 
-            for i in var:
-                print(i)
-
         return {
             "products": var
         }

@@ -1,7 +1,7 @@
 import requests
 import random
 
-ENDPOINT = "http://127.0.0.1:5000/"
+ENDPOINT = "http://44.211.218.231:5000"
 
 # region Category
 def test_can_call_the_endpoint_categories():
