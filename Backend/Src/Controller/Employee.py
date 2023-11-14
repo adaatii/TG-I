@@ -18,6 +18,7 @@ class EmployeeController:
             return False
 
     def updateEmployee(id, _name, _cpf, _email, _passwd , _status, _updatedDate):
+#        _passwdHash = generate_password_hash(_passwd)
         try:
             EmployeeDb.query.filter_by(id=id).update(
                 {
