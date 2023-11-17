@@ -95,9 +95,11 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
               name="name"
               value={name}
               onChange={(e) => {
-                setName(e.target.value);
-              }}
+                if (e.target.value.length <= 100) {
+                  setName(e.target.value);
+                }}}
               required
+             
             />
           </FormControl>
           <FormControl>
@@ -108,6 +110,8 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
               onChange={(e) => {
                 setCPF(e.target.value);
               }}
+              required
+              maxLength={50}
             >
               {(inputProps: any) => <Input {...inputProps} type="text" name="cpf" />}
             </InputMask>
@@ -119,8 +123,9 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
               name="email"
               value={email}
               onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+                if (e.target.value.length <= 150) {
+                  setEmail(e.target.value);
+                }}}
             />
           </FormControl><FormControl>
             <FormLabel>Password:</FormLabel>
@@ -129,8 +134,11 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
               name="email"
               value={passwd}
               onChange={(e) => {
-                setPasswd(e.target.value);
-              }}
+                if (e.target.value.length <= 150) {
+                  setPasswd(e.target.value);
+              }}}
+              required
+   
             />
           </FormControl>
           <FormControl>
