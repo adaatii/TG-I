@@ -7,7 +7,8 @@ app = Flask(__name__)
 
 CORS(app)
 
-app.secret_key = '1234'
+app.secret_key = os.environ['KEY']
+
 #SqlAlchemy Database Configuration With Mysql
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['MYSQL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

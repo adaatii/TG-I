@@ -1,5 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import InputMask from 'react-input-mask';
 
 import {
   Alert,
@@ -55,8 +56,12 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
   function handleSubmit(e: SyntheticEvent<HTMLFormElement, SubmitEvent>) {
     // Prevent the browser from reloading the page
     e.preventDefault();
-
-    const params = { name, cpf, email,passwd, status };
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+    setErrors("Please enter a valid email address.");
+    return;
+    }
+    const params = { name, cpf, email, passwd, status };
     const axiosRequest = isEdit
       ? axios.put(`employees/${id}`, params)
       : axios.post("employees/", params);
@@ -97,14 +102,15 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
           </FormControl>
           <FormControl>
             <FormLabel>CPF:</FormLabel>
-            <Input
-              type="text"
-              name="cpf"
+            <InputMask
+              mask="999.999.999-99"
               value={cpf}
               onChange={(e) => {
                 setCPF(e.target.value);
               }}
-            />
+            >
+              {(inputProps: any) => <Input {...inputProps} type="text" name="cpf" />}
+            </InputMask>
           </FormControl>
           <FormControl>
             <FormLabel>Email:</FormLabel>

@@ -34,6 +34,7 @@ class EmployeeController:
             return True
         except IntegrityError:
             db.session.rollback()
+            print("aqui")
             return False
 
     # def List(_employeeFilter) -> str:
