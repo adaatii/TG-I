@@ -10,16 +10,13 @@ import {
   FormControlLabel,
   FormLabel,
   Input,
-  InputLabel,
-  MenuItem,
-  Select,
   Stack,
   Switch,
   Typography,
 } from "@mui/material";
 
 import axios from "../api";
-import { Category, Employee } from "../types/types";
+import { Employee } from "../types/types";
 
 interface EmployeeFormProps {
   isEdit?: boolean;
@@ -34,9 +31,11 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
     if (!isEdit) return;
     axios.get<{ employees: Employee[] }>("employees").then(function (response) {
       const employees = response.data.employees;
+
       const employee = employees.find((cat) => {
         return cat.id === parseInt(id ?? "", 10);
       });
+
       setName(employee?.name ?? "");
       setCPF(employee?.cpf.toString() ?? "");
       setEmail(employee?.email ?? "");
@@ -56,10 +55,11 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
   function handleSubmit(e: SyntheticEvent<HTMLFormElement, SubmitEvent>) {
     // Prevent the browser from reloading the page
     e.preventDefault();
+
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
-    setErrors("Please enter a valid email address.");
-    return;
+      setErrors("Please enter a valid email address.");
+      return;
     }
     const params = { name, cpf, email, passwd, status };
     const axiosRequest = isEdit
@@ -86,7 +86,7 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
         <Alert severity="success">Employee successfully saved</Alert>
       ) : null}
 
-      <form method="POST" onSubmit={handleSubmit}>
+      <form method="POST" onSubmit={handleSubmit} autoComplete="off">
         <Stack spacing={2} alignItems="center">
           <FormControl>
             <FormLabel>Name:</FormLabel>
@@ -97,9 +97,10 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
               onChange={(e) => {
                 if (e.target.value.length <= 100) {
                   setName(e.target.value);
-                }}}
+                }
+              }}
               required
-             
+
             />
           </FormControl>
           <FormControl>
@@ -118,27 +119,30 @@ export default function EmployeeForm({ isEdit }: EmployeeFormProps) {
           </FormControl>
           <FormControl>
             <FormLabel>Email:</FormLabel>
-            <Input
-              type="text"
-              name="email"
-              value={email}
-              onChange={(e) => {
-                if (e.target.value.length <= 150) {
-                  setEmail(e.target.value);
-                }}}
-            />
+                                                 
+              <Input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => {
+                  if (e.target.value.length <= 150) {
+                    setEmail(e.target.value);
+                  }
+                }}
+              />
           </FormControl><FormControl>
             <FormLabel>Password:</FormLabel>
             <Input
-              type="text"
+              type="password"
               name="email"
               value={passwd}
               onChange={(e) => {
                 if (e.target.value.length <= 150) {
                   setPasswd(e.target.value);
-              }}}
+                }
+              }}
               required
-   
+
             />
           </FormControl>
           <FormControl>

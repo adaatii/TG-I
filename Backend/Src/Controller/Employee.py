@@ -18,14 +18,14 @@ class EmployeeController:
             return False
 
     def updateEmployee(id, _name, _cpf, _email, _passwd , _status, _updatedDate):
-#        _passwdHash = generate_password_hash(_passwd)
+        _passwdHash = generate_password_hash(_passwd)
         try:
             EmployeeDb.query.filter_by(id=id).update(
                 {
                     'name': _name.upper(),
                     'cpf': _cpf,
                     'email': _email.upper(),
-                    'passwd': _passwd,
+                    'passwd': _passwdHash,
                     'status': _status,
                     'updatedDate': _updatedDate
                 }
@@ -36,28 +36,6 @@ class EmployeeController:
             db.session.rollback()
             print("aqui")
             return False
-
-    # def List(_employeeFilter) -> str:
-    #     if len(_employeeFilter) < 1:
-    #         query = EmployeeDb.query.all()
-
-    #         var = []
-
-    #         for employee in query:
-    #             var.append({
-    #                 "id": employee[-1],
-    #                 "name": employee[1],
-    #                 "email": employee[2],
-    #                 "cpf": employee[3],
-    #                 "passwd": employee[4],
-    #                 "status": employee[5],
-    #                 "updatedDate": employee[6],
-    #                 "createdDate": employee[7]
-    #             })
-
-    #     return {
-    #         "employees": var
-    #     }
 
     def List(_employeeFilter) -> str:
         if len(_employeeFilter) < 1:

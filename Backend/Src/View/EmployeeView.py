@@ -28,6 +28,7 @@ def createEmployee():
         timezone("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M:%S")
     _updatedDate = _createdDate
     _cleanCpf = re.sub(r'\D', '', _cpf) 
+    
     if any((x is None or x == "") for x in [_name,_cpf,_email, _passwd]):
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
     else:
@@ -49,7 +50,8 @@ def updateEmployee(id):
     _status = 1 if params['status'] else 0
     _updatedDate = datetime.now(
         timezone("America/Sao_Paulo")).strftime("%d/%m/%Y %H:%M:%S")
-    _cleanCpf = re.sub(r'\D', '', _cpf)    
+    _cleanCpf = re.sub(r'\D', '', _cpf)  
+
     if any((x is None or x == "") for x in [_name,_cpf,_email, _passwd, _status]):
         return {'status': 'error', 'message': 'Fill all of the fields'}, status.HTTP_400_BAD_REQUEST
     else:
