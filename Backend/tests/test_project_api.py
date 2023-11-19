@@ -9,7 +9,7 @@ def test_can_call_the_endpoint_categories():
     first_category = response.json()['categories'][0]
     expected_result = {
         "id": 1,
-        "description": 'COMIDA',
+        "description": 'CAFES',
         "status": 1,
         "updatedDate": '04/07/2023 07:48:13',
         "createdDate": '27/06/2023 13:39:33'
@@ -31,7 +31,7 @@ def test_can_create_category():
 
 def test_can_create_category_conflict():
     payload = {
-        "description": "SALGADO",
+        "description": "SALGADOS",
         "status": True,
     }
     response = requests.post(f"{ENDPOINT}/categories/", json=payload)
@@ -63,7 +63,7 @@ def test_can_update_category():
 
 def test_can_update_category_conflict():
     payload = {
-        "description": "SALGADO",
+        "description": "SALGADOS",
         "status": True,
     }
     response = requests.put(f"{ENDPOINT}/categories/1", json=payload)
@@ -91,7 +91,7 @@ def test_can_call_the_endpoint_subCategories():
     first_subCategory = response.json()['subCategories'][0]
     expected_result = {
         "id": 1,
-        "description": 'DRINKS',
+        "description": 'ESPRESSO',
         "status": 1,
         "updatedDate": '24/10/2023 21:46:48',
         "createdDate": '24/10/2023 21:46:48',
@@ -113,7 +113,7 @@ def test_can_create_subCategory():
 
 def test_can_create_subCategory_conflict():
     payload = {
-        "description": "CAFÉ",
+        "description": "ESPRESSO",
         "status": True,
         "idCategory": 1
     }
@@ -137,22 +137,22 @@ def test_can_create_subCategory_badRquest():
 
 def test_can_update_subCategory():
     payload = {
-        "description": "TESTE DE UPDATE",
+        "description": "UPDATE SUBCATEGORY",
         "status": False,
         "idCategory": 1
     }
-    response = requests.put(f"{ENDPOINT}/subCategories/5", json=payload)
+    response = requests.put(f"{ENDPOINT}/subCategories/2", json=payload)
     assert response.status_code == 200
     assert response.json() == {'status': 'success'}
 
 
 def test_can_update_subCategory_conflict():
     payload = {
-        "description": "CAFÉ",
+        "description": "ESPRESSO",
         "status": True,
         "idCategory": 1
     }
-    response = requests.put(f"{ENDPOINT}/subCategories/9", json=payload)
+    response = requests.put(f"{ENDPOINT}/subCategories/2", json=payload)
     assert response.status_code == 409
     assert response.json() == {'status': 'error',
                                'message': 'SubCategory already exists'}
@@ -178,9 +178,9 @@ def test_can_call_the_endpoint_employee():
     first_employee = response.json()['employees'][0]
     expected_result = {
         "id": 1,
-        "name": 'ESTRELA',
+        "name": 'LUCAS',
         "cpf": '65743244432',
-        "email": "ESTRELA@GMAIL.COM",
+        "email": "LUCAS@GMAIL.COM",
         "passwd": "123",
         "status": 0,
         "updatedDate": '24/10/2023 16:50:19',
@@ -205,10 +205,10 @@ def test_can_create_employee():
 
 def test_can_create_employee_conflict():
     payload = {
-        "name": "Estrela",
+        "name": "LUCAS",
         "cpf": "65743244432",
         "passwd": "123",
-        "email": "estrela@gmail.com",
+        "email": "lucas@gmail.com",
         "status": True
     }
     response = requests.post(f"{ENDPOINT}/employees/", json=payload)
@@ -222,7 +222,7 @@ def test_can_create_employee_badRquest():
         "name": "",
         "cpf": "65743244432",
         "passwd": "123",
-        "email": "estrela@gmail.com",
+        "email": "lucas@gmail.com",
         "status": True
     }
     response = requests.post(f"{ENDPOINT}/employees/", json=payload)
@@ -233,8 +233,8 @@ def test_can_create_employee_badRquest():
 
 def test_can_update_employee():
     payload = {
-        "name": "New Name",
-        "cpf": "1111111",
+        "name": "UPDATED EMPLOYEE",
+        "cpf": "45678975643",
         "passwd": "123",
         "email": "newemail@gmail.com",
         "status": False
@@ -246,16 +246,16 @@ def test_can_update_employee():
 
 def test_can_update_employee_conflict():
     payload = {
-        "name": "Estrela",
+        "name": "LUCAS",
         "cpf": "65743244432",
         "passwd": "123",
-        "email": "estrela@gmail.com",
+        "email": "lucas@gmail.com",
         "status": True
     }
-    response = requests.put(f"{ENDPOINT}/employees/3",json=payload)
+    response = requests.put(f"{ENDPOINT}/employees/2",json=payload)
     assert response.status_code == 409
     assert response.json() == {'status': 'error',
-                               'message': 'Category already exists'}
+        'message': 'Employee already exists'}
 
 
 def test_can_update_employee_badRquest():
@@ -263,7 +263,7 @@ def test_can_update_employee_badRquest():
         "name": "",
         "cpf": "65743244432",
         "passwd": "123",
-        "email": "estrela@gmail.com",
+        "email": "lucas@gmail.com",
         "status": True
     }
     response = requests.put(f"{ENDPOINT}/employees/2",json=payload)
@@ -279,8 +279,8 @@ def test_can_call_the_endpoint_product():
     first_product = response.json()['products'][0]
     expected_result = {
         "id": 1,
-        "description": 'PRODUCT 6404',
-        "price": 640,
+        "description": 'ESPRESSO DUPLO',
+        "price": 12,
         "updatedDate": '25/10/2023 20:52:29',
         "createdDate": '25/10/2023 20:52:29',
         "idSubCategory":1,
@@ -305,8 +305,8 @@ def test_can_create_product():
 
 def test_can_create_product_conflict():
     payload = {
-        "description": f"PRODUCT 907",
-        "price": 907,
+        "description": f"ESPRESSO DUPLO",
+        "price": 12,
         "idSubCategory": 1,
         "status": True
     }
@@ -331,9 +331,9 @@ def test_can_create_product_badRquest():
 
 def test_can_update_product():
     payload = {
-        "description": f"PRODUCT 907",
-        "price": 907,
-        "idSubCategory": 2,
+        "description": f"ESPRESSO SIMPLES",
+        "price": 13,
+        "idSubCategory": 1,
         "status": False   
     }
     response = requests.put(f"{ENDPOINT}/products/2",json=payload)
@@ -343,12 +343,12 @@ def test_can_update_product():
 
 def test_can_update_product_conflict():
     payload = {
-        "description": f"PRODUCT 907",
-        "price": 907,
+        "description": f"ESPRESSO DUPLO",
+        "price": 13,
         "idSubCategory": 2,
         "status": False 
     }
-    response = requests.put(f"{ENDPOINT}/products/3",json=payload)
+    response = requests.put(f"{ENDPOINT}/products/2",json=payload)
     assert response.status_code == 409
     assert response.json() == {'status': 'error',
                                'message': 'Category already exists'}
@@ -357,7 +357,7 @@ def test_can_update_product_conflict():
 def test_can_update_product_badRquest():
     payload = {
         "description": "",
-        "price": 907,
+        "price": 13,
         "idSubCategory": 2,
         "status": False 
     }
