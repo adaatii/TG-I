@@ -74,11 +74,16 @@ ADD CONSTRAINT FK_ITENSSALE_PRODUCT FOREIGN KEY (idProduct) REFERENCES product (
 
 
 INSERT INTO employee (name, cpf, email, passwd, status, updatedDate, createdDate)
-VALUES ("ESTRELA","65743244432","ESTRELA@GMAIL.COM","123","0","24/10/2023 16:50:19","28/06/2023 08:31:46");
+VALUES ("LUCAS","65743244432","LUCAS@GMAIL.COM","123","0","24/10/2023 16:50:19","28/06/2023 08:31:46");
 
 INSERT INTO category (description, status, updatedDate, createdDate)
-VALUES ("COMIDA","1","04/07/2023 07:48:13","27/06/2023 13:39:33");
+VALUES ("CAFES","1","04/07/2023 07:48:13","27/06/2023 13:39:33");
 
 INSERT INTO category (description, status, updatedDate, createdDate)
-VALUES ("SALGADO","1","24/10/2023 21:13:29","24/10/2023 21:13:29");
+VALUES ("SALGADOS","1","24/10/2023 21:13:29","24/10/2023 21:13:29");
 
+INSERT INTO subCategory (description, status, updatedDate, createdDate, idCategory)
+VALUES ("ESPRESSO","1","24/10/2023 21:46:48","24/10/2023 21:46:48", "1");
+
+INSERT INTO product (description, price, updatedDate, createdDate, idSubCategory, status)
+VALUES ("ESPRESSO DUPLO","12","25/10/2023 20:52:29","25/10/2023 20:52:29", "1", "1");
