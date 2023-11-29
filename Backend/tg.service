@@ -1,0 +1,23 @@
+[Unit]
+# Esta seção contém informações sobre o serviço
+Description=API em flask para PANTEAO
+
+# O serviço será iniciado após a rede estar ativa
+After=network.target
+
+[Service]
+# Esta seção contém as configurações do serviço
+ExecStart=/home/arcraft/.ghq/github.com/adaatii/TG/Backend/.venv/bin/python  /home/arcraft/.ghq/github.com/adaatii/TG/Backend/main.py 
+# O serviço será reiniciado sempre que parar
+Restart=always
+RestartSec=3
+
+# As variáveis de ambiente para o serviço
+Environment=PATH=/caminho/para/seu/ambiente/virtual/.venv/bin:/usr/bin:/usr/local/bin
+Environment=DISPLAY=:0
+# O diretório de trabalho para o serviço
+WorkingDirectory=/home/arcraft/.ghq/github.com/adaatii/TG/Backend/
+
+[Install]
+# Esta seção contém as configurações de instalação do serviço
+WantedBy=multi-user.target
