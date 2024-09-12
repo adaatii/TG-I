@@ -1,8 +1,8 @@
 # TG-I flask-react-app 
 
-In every application there is a control of employees involved in the process. In addition, it is necessary to categorize these employees into categories.
+In every application there is a control of employees and categories involved in the process.
 
-In this project an API was developed that allows querying, creating and editing this information, maintaining this relationship between the employee and his category.
+In this project an API was developed that allows querying, creating and editing this information, about employee and category.
 
 ## Libraries and Tools
 
@@ -97,6 +97,9 @@ To run the tests:
 pytest -v
 ```
 
+> [!NOTE]
+> You must first create the database. The database information is at the end of the file.
+
 ### Frontend
 
 Previously, nodejs has to be installed.
@@ -121,12 +124,13 @@ bash
 
 MARIADB_ROOT_PASSWORD="your_password" docker compose up
 
-    [!NOTE] You can start and daemonize it immediately by passing the -d flag. In this case, you will need to stop the container using Docker Desktop or docker stop {container}.
+> [!NOTE]
+> You can start and daemonize it immediately by passing the -d flag. In this case, you will need to stop the container using Docker Desktop or docker stop {container}.
 
-To create the database, you need to execute an SQL script. You can use tools like DBeaver or any other SQL IDE for this purpose. Simply connect to your MariaDB instance and run the provided SQL script to set up the database schema.
+To create the database, you need to execute an SQL script. You can use tools like DBeaver or any other SQL IDE for this purpose. Simply connect to your MariaDB instance and run the provided SQL script to set up the database schema. You can find the Script in [SQLScript](https://github.com/adaatii/flask-react-app/blob/main/Database/panteao.sql).
 ## Navigate the project
 
-* [MVC](https://github.com/adaatii/flask-react-app/tree/main/Backend/Src)
+* [Backend](https://github.com/adaatii/flask-react-app/tree/main/Backend/Src)
 * [Frontend](https://github.com/adaatii/flask-react-app/tree/main/Frontend)
 * [Tests](https://github.com/adaatii/flask-react-app/tree/main/Backend/tests)
 * [DataBase](https://github.com/adaatii/flask-react-app/tree/main/Database/)
